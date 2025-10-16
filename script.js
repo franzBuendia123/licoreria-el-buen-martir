@@ -34,13 +34,12 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function getProductsFromDatabase() {
         try {
-            // CRÍTICO: Usamos la URL ABSOLUTA del servidor de Render.
+            // URL ABSOLUTA del servidor de Render.
             const API_URL = 'https://licoreria-el-buen-martir-backend.onrender.com/api/products'; 
             
             const response = await fetch(API_URL);
 
             if (!response.ok) {
-                // Si hay un error HTTP (404, 500, etc.)
                 throw new Error(`Error ${response.status}: No se pudo obtener la lista de productos.`);
             }
 
@@ -48,7 +47,7 @@ document.addEventListener('DOMContentLoaded', () => {
             
         } catch (error) {
             console.error("Error al cargar productos desde la API:", error);
-            // Mostrar error en la UI si falla la conexión o el servidor
+            // Mostrar error si falla la conexión
             if (productGrid) {
                 productGrid.innerHTML = `
                     <p style="grid-column: 1 / -1; text-align: center; color: red; padding: 20px;">
@@ -63,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /**
-     * Procesa el arreglo de productos de la API y crea los elementos HTML de las tarjetas.
+     * Procesa el arreglo de productos de la API y crea los elementos HTML.
      */
     function fetchAndRenderProducts(productos) {
         
@@ -77,15 +76,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productos.forEach(producto => {
             
-            // **Mapeo de Campos de MongoDB (ajustado a las estructuras típicas)**
-            const precioRegular = producto.precio_regular || producto.precio;
-            const precioOferta = producto.precio_oferta || producto.precio;
-            const descuento = producto.descuento_porcentaje || producto.descuento_percentage || null; 
-            const imagenUrl = producto.imagen_url || producto.imagenUrl || 'placeholder-bottle.png'; // Fallback por si no viene el campo de imagen
+            // **** Mapeo FINAL de Campos basado en tu MongoDB (image_6b557e.jpg) ****
+            const precioRegular = producto.precio_regular;
+            const precioOferta = producto.precio_oferta;
+            const descuento = producto.descuento_porcentaje; 
+            const imagenUrl = producto.imagen_url || 'placeholder-bottle.png';
             
-            // Lógica de generación de HTML de la tarjeta
-            const saleTag = descuento ? `<div class="sale-tag">-${descuento}%</div>` : '';
+            // Generación de HTML
             
+            // 1. Tag de Descuento (Solo si existe y es mayor a 0)
+            const saleTag = (descuento && descuento > 0) ? `<div class="sale-tag">-${descuento}%</div>` : '';
+            
+            // 2. Precio Anterior (Solo si existe y es diferente al de oferta)
             const oldPriceHTML = (precioRegular && precioRegular !== precioOferta) 
                                 ? `<p class="price-old">S/ ${precioRegular.toFixed(2)}</p>` 
                                 : '';
@@ -99,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <div class="price-container">
                         ${oldPriceHTML}
-                        <p class="price-new">S/ ${precioOferta.toFixed(2)}</p>
+                        <p class="price-new">S/ ${precioOferta ? precioOferta.toFixed(2) : '0.00'}</p>
                     </div>
                     
                     <button class="add-to-cart" data-product-id="${producto._id}">
