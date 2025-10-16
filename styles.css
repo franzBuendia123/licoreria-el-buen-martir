@@ -107,12 +107,15 @@ body {
 /* ESTILOS DEL CARRUSEL DE BANNERS */
 .main-banner.full-width-banner {
     position: relative; 
-    height: 250px; 
-    overflow: hidden;
+    /* CORRECCIÓN CRÍTICA: Altura fija y forzada a 250px */
+    height: 250px !important; 
+    /* CRÍTICO: Corta cualquier desbordamiento de contenido */
+    overflow: hidden;         
     margin-bottom: 20px;
 }
 
 .banner-slide {
+    /* Lógica de superposición y transición */
     position: absolute;
     top: 0;
     left: 0;
@@ -120,14 +123,22 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 1s ease-in-out; 
+    
+    /* Configuración de fondo y contenido */
     display: flex; 
     justify-content: space-between;
     align-items: center;
-    padding: 30px 40px;
+    
+    /* CRÍTICO: ELIMINACIÓN TOTAL DE PADDING Y MARGIN PARA EVITAR EL BUG DE ALTURA */
+    padding: 0 !important; 
+    margin: 0 !important;
+    
     color: #fff;
-    background-size: contain; 
+    /* ESCALA: contain para ver la imagen completa sin recortes */
+    background-size: contain !important; 
     background-position: center;  
     background-repeat: no-repeat;
+    background-color: #000 !important; /* Rellena el espacio sobrante con negro */
 }
 
 /* Slide Activo (Lo muestra) */
@@ -136,29 +147,31 @@ body {
     z-index: 10;
 }
 
-/* FONDOS ESPECÍFICOS: CON LAS IMÁGENES PROPORCIONADAS */
+/* FONDOS ESPECÍFICOS: (Asumiendo que la ruta 'img/' es correcta) */
 .banner-slide.slide-1 {
-    background-image: url('img/slider1.png'); 
+    background-image: url('img/slider1.jpg'); 
 }
 
 .banner-slide.slide-2 {
-    background-image: url('img/slider2.png');
+    background-image: url('img/slider2.jpg');
 }
 
 .banner-slide.slide-3 {
-    background-image: url('img/slider3.png'); 
+    background-image: url('img/slider3.jpg'); 
 }
 
 .banner-slide.slide-4 {
-    background-image: url('img/slider4.png'); 
+    background-image: url('img/slider4.jpg'); 
 }
 
-/* CRÍTICO: OCULTAR TODO EL TEXTO DEL SLIDER */
+/* OCULTAR TODO EL TEXTO DEL SLIDER */
 .botan-details,
 .description-text {
     opacity: 0 !important; 
     visibility: hidden !important;
-    flex-basis: 50%; /* Se mantiene el espacio, pero invisible */
+    flex-basis: 50%;
+    padding: 0 !important; 
+    margin: 0 !important;
 }
 
 .title, .subtitle, .moving-text {
@@ -276,7 +289,7 @@ body {
 
 /* FORZAR LA ALTURA DEL NOMBRE DEL PRODUCTO */
 .product-card .name {
-    height: 50px; /* Suficiente para 2-3 líneas de texto. */
+    height: 50px; 
     overflow: hidden; 
     margin: 10px 0; 
     font-size: 14px;
@@ -388,8 +401,3 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
-
-
-
-
-
