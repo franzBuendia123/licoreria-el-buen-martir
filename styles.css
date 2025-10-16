@@ -128,12 +128,13 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 1s ease-in-out; 
-    background-size: cover; /* Cambiado a cover para un banner más grande */
+    background-size: cover;
     background-position: center;  
     background-repeat: no-repeat;
-    background-color: #000; 
+    background-color: #000;
+    margin: 0 auto; 
+    right: 0;
 }
-
 /* CRÍTICO: Asegúrate de tener estas imágenes en tu carpeta img/ */
 .banner-slide.slide-1 { background-image: url('img/slider1.png'); }
 .banner-slide.slide-2 { background-image: url('img/slider2.png'); }
@@ -551,6 +552,7 @@ body {
     cursor: pointer;
     margin-left: 10px;
 }
+
 
 
 
