@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. LÓGICA DEL CARRUSEL (SLIDER)
     // ====================================================================
 
-    // Los banners slider1.jpg, slider2.jpg, etc., se cargan desde el CSS
     const slides = document.querySelectorAll('.banner-slide');
     let currentSlide = 0;
 
@@ -16,7 +15,6 @@ document.addEventListener('DOMContentLoaded', () => {
         slides[currentSlide].classList.add('active');
     }
 
-    // Muestra el primer slide inmediatamente al cargar
     if (slides.length > 0) {
         slides[0].classList.add('active');
     }
@@ -32,31 +30,30 @@ document.addEventListener('DOMContentLoaded', () => {
     const productGrid = document.getElementById('productGrid');
 
     /**
-     * Hace una petición GET a tu API de Backend para obtener los productos.
+     * Función que hace la petición GET al servidor de Render.
      */
     async function getProductsFromDatabase() {
         try {
-            // CRÍTICO: Esta es la ruta que tu servidor (Render) debe manejar.
-            // Si usas una URL completa (ej: Render), reemplaza: 
-            // const API_URL = 'https://tuserver.onrender.com/api/products';
-            const API_URL = '/api/products'; 
+            // CRÍTICO: Usamos la URL ABSOLUTA del servidor de Render.
+            const API_URL = 'https://licoreria-el-buen-martir-backend.onrender.com/api/products'; 
             
             const response = await fetch(API_URL);
 
             if (!response.ok) {
-                throw new Error(`Error ${response.status}: Revisa la ruta o el estado del servidor.`);
+                // Si hay un error HTTP (404, 500, etc.)
+                throw new Error(`Error ${response.status}: No se pudo obtener la lista de productos.`);
             }
 
-            return await response.json(); // Devuelve el arreglo de productos
+            return await response.json(); 
             
         } catch (error) {
             console.error("Error al cargar productos desde la API:", error);
-            // Muestra el error en la cuadrícula de productos
+            // Mostrar error en la UI si falla la conexión o el servidor
             if (productGrid) {
                 productGrid.innerHTML = `
                     <p style="grid-column: 1 / -1; text-align: center; color: red; padding: 20px;">
                         ERROR DE CONEXIÓN: ${error.message} <br>
-                        Verifica que tu API esté en funcionamiento (MongoDB/Render).
+                        Verifica que tu servidor de Backend (Render) esté activo y la ruta '/api/products' sea correcta.
                     </p>
                 `;
             }
@@ -66,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
     /**
-     * Procesa el arreglo de productos de la API y crea los elementos HTML.
+     * Procesa el arreglo de productos de la API y crea los elementos HTML de las tarjetas.
      */
     function fetchAndRenderProducts(productos) {
         
@@ -80,12 +77,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productos.forEach(producto => {
             
-            // Mapeo de campos basado en la estructura de tu MongoDB/API
+            // **Mapeo de Campos de MongoDB (ajustado a las estructuras típicas)**
             const precioRegular = producto.precio_regular || producto.precio;
             const precioOferta = producto.precio_oferta || producto.precio;
-            // Asumiendo que el campo de descuento es 'descuento_percentage'
-            const descuento = producto.descuento_percentage || null; 
-
+            const descuento = producto.descuento_porcentaje || producto.descuento_percentage || null; 
+            const imagenUrl = producto.imagen_url || producto.imagenUrl || 'placeholder-bottle.png'; // Fallback por si no viene el campo de imagen
+            
+            // Lógica de generación de HTML de la tarjeta
             const saleTag = descuento ? `<div class="sale-tag">-${descuento}%</div>` : '';
             
             const oldPriceHTML = (precioRegular && precioRegular !== precioOferta) 
@@ -95,7 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const cardHTML = `
                 <div class="product-card">
                     ${saleTag}
-                    <img src="${producto.imagenUrl}" alt="${producto.nombre}" class="product-image">
+                    <img src="img/${imagenUrl}" alt="${producto.nombre}" class="product-image">
                     
                     <p class="name">${producto.nombre}</p>
                     
@@ -114,7 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     /**
-     * Función que inicia la carga de productos.
+     * Función principal que inicia la carga de productos.
      */
     async function loadProducts() {
         if (productGrid) {
