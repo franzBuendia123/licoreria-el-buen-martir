@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
             productGrid.innerHTML = '';
 
             productos.forEach(producto => {
+                
+                const productLink = `detalle.html?id=${producto._id}`;
+
                 const cardHTML = `
                     <div class="product-card">
                         <span class="sale-tag">-${producto.descuento_porcentaje || '0%'}</span>
@@ -48,5 +51,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchAndRenderProducts();
 });
-
-
