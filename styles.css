@@ -31,7 +31,7 @@ body {
     font-weight: bold;
 }
 
-/* 2. Barra de Navegación Principal (Usamos <header> y <nav> semántico) */
+/* 2. Barra de Navegación Principal */
 .main-nav {
     background-color: #000;
     color: #fff;
@@ -106,30 +106,28 @@ body {
 
 /* ESTILOS DEL CARRUSEL DE BANNERS */
 .main-banner.full-width-banner {
-    position: relative; /* CRÍTICO: Para posicionar los slides */
-    height: 250px; /* Altura fija para el banner */
+    position: relative; 
+    height: 250px; 
     overflow: hidden;
     margin-bottom: 20px;
 }
 
 .banner-slide {
-    /* Oculta todos los slides por defecto */
+    /* Lógica de superposición y transición */
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     opacity: 0;
-    transition: opacity 1s ease-in-out; /* Animación de fade */
+    transition: opacity 1s ease-in-out; 
     
-    /* Organización del contenido dentro del slide */
+    /* Configuración de fondo y contenido */
     display: flex; 
     justify-content: space-between;
     align-items: center;
     padding: 30px 40px;
     color: #fff;
-    
-    /* Estilos de imagen/fondo - AJUSTA ESTAS LÍNEAS CON TUS IMÁGENES REALES */
     background-size: cover;
     background-position: center;
 }
@@ -140,55 +138,34 @@ body {
     z-index: 10;
 }
 
-/* Fondos específicos (Añade tantos como slides tengas) */
+/* FONDOS ESPECÍFICOS: CON LAS IMÁGENES PROPORCIONADAS */
 .banner-slide.slide-1 {
-    background-color: #008888; 
-    /* EJEMPLO DE IMAGEN: background-image: url('img/botran-bg.jpg'); */
+    background-image: url('img/slider1.jpg'); 
 }
 
 .banner-slide.slide-2 {
-    background-color: #333; 
-    /* EJEMPLO DE IMAGEN: background-image: url('img/enemigo-bg.jpg'); */
+    background-image: url('img/slider2.jpg');
 }
 
-.botan-details {
-    flex-basis: 50%;
+.banner-slide.slide-3 {
+    background-image: url('img/slider3.jpg'); 
 }
 
-.title {
-    font-size: 40px;
-    font-weight: 900;
+.banner-slide.slide-4 {
+    background-image: url('img/slider4.jpg'); 
 }
 
-.subtitle {
-    font-size: 20px;
-    font-weight: 300;
-}
-
+/* CRÍTICO: OCULTAR TODO EL TEXTO DEL SLIDER */
+.botan-details,
 .description-text {
-    /* Estilos para la animación de texto (Scroll horizontal) */
-    flex-basis: 40%;
-    text-align: right;
-    font-style: italic;
-    font-size: 16px;
-    line-height: 1.4;
-    font-weight: bold;
-    overflow: hidden; /* Oculta el texto que se sale */
-    padding: 10px 0;
+    opacity: 0 !important; 
+    visibility: hidden !important;
+    flex-basis: 50%; /* Se mantiene el espacio, pero invisible */
 }
 
-.moving-text {
-    animation: slideRightToLeft 15s linear infinite;
-    white-space: nowrap; 
-    width: 200%; 
-    margin: 0;
+.title, .subtitle, .moving-text {
+    display: none !important;
 }
-
-@keyframes slideRightToLeft {
-    0% { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
-}
-
 
 /* 4. y 5. Área de Filtros y Productos */
 .products-section {
@@ -197,7 +174,7 @@ body {
     padding: 20px 0;
 }
 
-/* 4. Menú Lateral (Sidebar - Usamos <aside> semántico) */
+/* 4. Menú Lateral (Sidebar) */
 .sidebar {
     width: 250px;
     background-color: #fff;
@@ -270,7 +247,7 @@ body {
     gap: 20px;
 }
 
-/* 1. Contenedor principal de la tarjeta: Solución con ALTURA FIJA para garantizar alineación */
+/* ALINEACIÓN PERFECTA DE TARJETAS */
 .product-card {
     height: 380px; /* Altura fija para el tamaño ideal de la tarjeta */
     overflow: hidden; 
@@ -291,7 +268,7 @@ body {
     font-size: 12px;
 }
 
-/* Imagen (Corrección de Opacidad) */
+/* Imagen (Asegura visibilidad) */
 .product-image {
     width: 80%;
     height: auto;
@@ -299,7 +276,7 @@ body {
     opacity: 1; 
 }
 
-/* 2. FORZAR LA ALTURA DEL NOMBRE DEL PRODUCTO */
+/* FORZAR LA ALTURA DEL NOMBRE DEL PRODUCTO */
 .product-card .name {
     height: 50px; /* Suficiente para 2-3 líneas de texto. */
     overflow: hidden; 
@@ -309,14 +286,13 @@ body {
     font-weight: bold;
 }
 
-/* 3. Área de Precios: Se mantiene la altura mínima como seguro */
+/* Área de Precios */
 .price-container {
     min-height: 40px; 
     display: block;  
     margin: 5px 0 10px 0; 
 }
 
-/* 4. Precios: Asegura márgenes y display */
 .price-old {
     display: block; 
     text-decoration: line-through;
@@ -333,7 +309,7 @@ body {
     margin: 0; 
 }
 
-/* 5. Botón: Se mantiene la posición fija */
+/* Botón: Se mantiene la posición fija */
 .add-to-cart {
     background-color: #000;
     color: #fff;
