@@ -140,19 +140,19 @@ body {
 
 /* FONDOS ESPECÍFICOS: CON LAS IMÁGENES PROPORCIONADAS */
 .banner-slide.slide-1 {
-    background-image: url('img/slider1.jpg'); 
+    background-image: url('img/slider1.png'); 
 }
 
 .banner-slide.slide-2 {
-    background-image: url('img/slider2.jpg');
+    background-image: url('img/slider2.png');
 }
 
 .banner-slide.slide-3 {
-    background-image: url('img/slider3.jpg'); 
+    background-image: url('img/slider3.png'); 
 }
 
 .banner-slide.slide-4 {
-    background-image: url('img/slider4.jpg'); 
+    background-image: url('img/slider4.png'); 
 }
 
 /* CRÍTICO: OCULTAR TODO EL TEXTO DEL SLIDER */
@@ -390,4 +390,5 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
 
