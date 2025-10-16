@@ -129,7 +129,7 @@ body {
     padding: 30px 40px;
     color: #fff;
     
-    /* Estilos de imagen/fondo - Ajusta las rutas según tus archivos */
+    /* Estilos de imagen/fondo - AJUSTA ESTAS LÍNEAS CON TUS IMÁGENES REALES */
     background-size: cover;
     background-position: center;
 }
@@ -143,13 +143,12 @@ body {
 /* Fondos específicos (Añade tantos como slides tengas) */
 .banner-slide.slide-1 {
     background-color: #008888; 
-    /* Si tienes una imagen de fondo grande para Botran, descomenta y ajusta: */
-    /* background-image: url('img/botran-bg.jpg'); */
+    /* EJEMPLO DE IMAGEN: background-image: url('img/botran-bg.jpg'); */
 }
 
 .banner-slide.slide-2 {
     background-color: #333; 
-    /* background-image: url('img/enemigo-bg.jpg'); */
+    /* EJEMPLO DE IMAGEN: background-image: url('img/enemigo-bg.jpg'); */
 }
 
 .botan-details {
