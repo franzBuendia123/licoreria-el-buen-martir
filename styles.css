@@ -222,6 +222,7 @@ body {
 
 .product-card {
     height: 420px; 
+    overflow: hidden; 
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 15px;
@@ -247,7 +248,15 @@ body {
     opacity: 1; 
 }
 
-/* 2. Área de Precios: Fuerza la altura para evitar desalineación */
+.product-card .name {
+    height: 50px; /* Suficiente para 2-3 líneas de texto. Esto detiene el empuje. */
+    overflow: hidden; /* Oculta el texto si es demasiado largo para la altura */
+    margin: 10px 0; /* Margen fijo para separar de la imagen y los precios */
+    font-size: 14px;
+    line-height: 1.2;
+    font-weight: bold;
+}
+
 .price-container {
     min-height: 40px; 
     display: block;  
@@ -279,11 +288,8 @@ body {
     cursor: pointer;
     width: 100%;
     font-size: 14px;
-    
-    /* Usa un margen fijo pequeño, pero no 'auto' */
     margin-top: 10px; 
 }
-
 
 /* 6. Pie de Página (Footer) */
 .main-footer {
@@ -353,4 +359,5 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
 
