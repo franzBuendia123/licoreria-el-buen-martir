@@ -1,149 +1,203 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
+    // ====================================================================
+    // 1. LÓGICA DEL CARRUSEL (SLIDER)
+    // ====================================================================
 
-    const API_URL = 'https://licoreria-el-buen-martir-backend.onrender.com/api/productos';
-    const productGrid = document.getElementById('product-list');
+    const slides = document.querySelectorAll('.banner-slide');
+    let currentSlide = 0;
 
-    async function fetchAndRenderProducts() {
-        try {
-            const response = await fetch(API_URL);
+    function nextSlide() {
+        // Oculta el slide actual
+        slides[currentSlide].classList.remove('active');
+        
+        // Mueve al siguiente slide
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // Muestra el nuevo slide
+        slides[currentSlide].classList.add('active');
+    }
 
-            if (!response.ok) {
-                throw new Error(`Error ${response.status}: El servidor no respondió.`);
-            }
+    // Inicia la rotación automática cada 5 segundos
+    setInterval(nextSlide, 5000); 
 
-            const productos = await response.json();
-            productGrid.innerHTML = '';
 
-            productos.forEach(producto => {
-                
-                const productLink = `detalle.html?id=${producto._id}`;
+    // ====================================================================
+    // 2. LÓGICA DE CARGA DE PRODUCTOS (SIMULADA)
+    // ====================================================================
+    // En una aplicación real, esto obtendría datos de una API.
+    // Aquí usamos datos simulados para probar el carrito.
+    
+    const productGrid = document.getElementById('productGrid');
 
-                const cardHTML = `
-                    <div class="product-card">
-                        <span class="sale-tag">-${producto.descuento_porcentaje || '0%'}</span>
-                        
-                        <a href="${productLink}">
-                            <img src="img/${producto.imagen_url || 'placeholder-bottle.png'}" alt="${producto.nombre}" class="product-image">
-                            <p class="name">${producto.nombre}</p>
-                        </a>
-                        
-                        <div class="price-container">
-                            ${producto.precio_regular ? `<p class="price-old">S/ ${producto.precio_regular.toFixed(2)}</p>` : ''}
-                            <p class="price-new">S/ ${producto.precio_oferta.toFixed(2)}</p>
-                        </div>
-                        
-                        <button class="add-to-cart">AÑADIR AL CARRITO</button>
+    // Datos simulados (CRÍTICO: Usamos el ID de ejemplo que el JS buscará)
+    const mockProducts = [
+        { _id: "P001", nombre: "ABUELO 7 AÑOS X 750 ML", precio_regular: 79.00, precio_oferta: 79.00, imagen: "abotella.png", descuento: null },
+        { _id: "P002", nombre: "ABADÍA RETUERTA SELECCIÓN ESPECIAL BLEND 2020 X 700 ML", precio_regular: 190.00, precio_oferta: 190.00, imagen: "avinoblend.png", descuento: 12 },
+        { _id: "P003", nombre: "ABSOLUT X 1 LITRO", precio_regular: 74.00, precio_oferta: 61.90, imagen: "vodkaabsolut.png", descuento: 16 },
+        { _id: "P004", nombre: "ABSOLUT X 700 ML", precio_regular: 51.00, precio_oferta: 46.90, imagen: "vodkaabsolut700.png", descuento: 8 },
+    ];
+
+    function fetchAndRenderProducts(productos) {
+        
+        // Limpia la cuadrícula antes de renderizar (si fuera necesario)
+        productGrid.innerHTML = ''; 
+
+        productos.forEach(producto => {
+            
+            const saleTag = producto.descuento ? `<div class="sale-tag">-${producto.descuento}%</div>` : '';
+
+            const cardHTML = `
+                <div class="product-card">
+                    ${saleTag}
+                    <img src="img/${producto.imagen}" alt="${producto.nombre}" class="product-image">
+                    
+                    <p class="name">${producto.nombre}</p>
+                    
+                    <div class="price-container">
+                        ${producto.precio_regular ? `<p class="price-old">S/ ${producto.precio_regular.toFixed(2)}</p>` : ''}
+                        <p class="price-new">S/ ${producto.precio_oferta.toFixed(2)}</p>
                     </div>
-                `;
-                productGrid.innerHTML += cardHTML;
+                    
+                    <button 
+                        class="add-to-cart" 
+                        data-product-id="${producto._id}" 
+                    >
+                        AÑADIR AL CARRITO
+                    </button>
+                </div>
+            `;
+            productGrid.innerHTML += cardHTML;
+        });
+
+        // CRÍTICO: LLAMAR AQUÍ PARA ACTIVAR LOS BOTONES DESPUÉS DE RENDERIZAR
+        attachCartListeners(); 
+    }
+
+    // Llama a la función para cargar los productos simulados
+    fetchAndRenderProducts(mockProducts);
+
+
+    // ====================================================================
+    // 3. LÓGICA DEL CARRITO DE COMPRAS (VERSIÓN SIDEBAR)
+    // ====================================================================
+
+    // Elementos de la UI
+    const cartTotalElement = document.querySelector('.cart span'); // Cabecera S/ 0.00
+    const cartIconElement = document.querySelector('.cart'); 
+    const cartSidebar = document.getElementById('cartSidebar');
+    const cartOverlay = document.getElementById('cartOverlay');
+    const closeCartBtn = document.getElementById('closeCartBtn');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const sidebarCartTotal = document.getElementById('sidebarCartTotal');
+
+    // Inicializa el carrito
+    let cart = JSON.parse(localStorage.getItem('elbuenmartir_cart')) || [];
+
+    // --- FUNCIONES DE UI ---
+
+    function openCartSidebar() {
+        cartSidebar.classList.add('active');
+        cartOverlay.classList.add('active');
+        renderCartItems(); // Renderiza los items cada vez que se abre
+    }
+
+    function closeCartSidebar() {
+        cartSidebar.classList.remove('active');
+        cartOverlay.classList.remove('active');
+    }
+
+    function renderCartItems() {
+        // Limpia el contenido anterior del sidebar
+        cartItemsContainer.innerHTML = '';
+        
+        if (cart.length === 0) {
+            cartItemsContainer.innerHTML = '<p class="empty-cart-message">Tu carrito está vacío.</p>';
+            return;
+        }
+
+        // Itera y renderiza cada producto
+        cart.forEach(item => {
+            const itemTotal = (item.price * item.quantity).toFixed(2);
+            const cartItemHTML = `
+                <div class="cart-item" data-product-id="${item.id}">
+                    <div class="item-details">
+                        <p><strong>${item.name}</strong></p>
+                        <p>Cantidad: ${item.quantity}</p>
+                    </div>
+                    <p class="item-price">S/ ${itemTotal}</p>
+                </div>
+            `;
+            cartItemsContainer.innerHTML += cartItemHTML;
+        });
+    }
+
+    // --- LÓGICA DEL CARRITO ---
+
+    function updateCartDisplay() {
+        let total = 0;
+        
+        cart.forEach(item => {
+            total += item.price * item.quantity;
+        });
+
+        // Actualiza ambos totales
+        const formattedTotal = total.toFixed(2);
+        cartTotalElement.textContent = `S/ ${formattedTotal}`; // Cabecera
+        sidebarCartTotal.textContent = `S/ ${formattedTotal}`; // Sidebar
+
+        localStorage.setItem('elbuenmartir_cart', JSON.stringify(cart));
+    }
+
+    function addToCart(event) {
+        const button = event.target;
+        const productId = button.dataset.productId; 
+        
+        if (!productId) {
+            console.error("Error: El botón Añadir al Carrito no tiene un 'data-product-id'.");
+            return;
+        }
+        
+        // Obtiene datos del producto
+        const productCard = button.closest('.product-card');
+        const priceText = productCard.querySelector('.price-new').textContent;
+        const price = parseFloat(priceText.replace('S/ ', '').trim());
+        const productName = productCard.querySelector('.name').textContent;
+
+        const existingItem = cart.find(item => item.id === productId);
+
+        if (existingItem) {
+            existingItem.quantity += 1;
+        } else {
+            cart.push({
+                id: productId,
+                name: productName.trim(),
+                price: price,
+                quantity: 1,
             });
-
-            if (productos.length === 0) {
-                productGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">No se encontraron productos. ¡Inserta datos en tu MongoDB Atlas!</p>';
-            }
-
-        } catch (error) {
-            console.error('Error al cargar los productos:', error);
-            productGrid.innerHTML = '<p style="grid-column: 1 / -1; color: red; text-align: center;">ERROR: No se pudo conectar a la API. Revisa la consola para más detalles.</p>';
         }
+
+        updateCartDisplay();
+        openCartSidebar(); // Abre el sidebar al añadir un producto
     }
 
-    function startBannerRotation() {
-        const slides = document.querySelectorAll('.banner-slide');
-        if (slides.length < 2) return; 
+    // -----------------------------------------------------------
+    // Inicialización y Event Listeners del Sidebar
+    // -----------------------------------------------------------
 
-        let currentSlideIndex = 0;
-        
-        // Inicializa el carrusel forzando al primer slide a estar activo
-        slides.forEach((slide, index) => {
-            if (index === 0) {
-                slide.classList.add('active');
-            } else {
-                slide.classList.remove('active');
-            }
-        });
-
-        function showNextSlide() {
-            // 1. Oculta el slide actual
-            slides[currentSlideIndex].classList.remove('active');
-            
-            // 2. Mueve al siguiente índice (ciclo)
-            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
-            
-            // 3. Muestra el nuevo slide
-            slides[currentSlideIndex].classList.add('active');
-        }
-        
-        // Inicia la rotación cada 6 segundos
-        setInterval(showNextSlide, 6000); 
-    }
-
-const cartTotalElement = document.querySelector('.cart span'); 
-
-// Inicializa el carrito (o lo recupera del LocalStorage)
-let cart = JSON.parse(localStorage.getItem('elbuenmartir_cart')) || [];
-
-function updateCartDisplay() {
-    let total = 0;
-    
-    // Calcula el total sumando el precio y cantidad de cada item
-    cart.forEach(item => {
-        total += item.price * item.quantity;
-    });
-
-    // Actualiza el texto en la cabecera con el total (S/ 150.00)
-    cartTotalElement.textContent = `S/ ${total.toFixed(2)}`;
-    
-    // Guarda el carrito en el navegador para que persista al recargar
-    localStorage.setItem('elbuenmartir_cart', JSON.stringify(cart));
-}
-
-function addToCart(event) {
-    const button = event.target;
-    // Obtiene el ID único del producto desde el HTML
-    const productId = button.dataset.productId; 
-    
-    if (!productId) {
-        console.error("Error: El botón Añadir al Carrito no tiene un 'data-product-id'.");
-        return;
-    }
-    
-    // Obtiene el precio y el nombre de la tarjeta del DOM
-    const productCard = button.closest('.product-card');
-    const priceText = productCard.querySelector('.price-new').textContent;
-    const price = parseFloat(priceText.replace('S/ ', ''));
-    const productName = productCard.querySelector('.name').textContent;
-
-
-    // Revisa si el producto ya está en el carrito
-    const existingItem = cart.find(item => item.id === productId);
-
-    if (existingItem) {
-        existingItem.quantity += 1; // Si existe, aumenta la cantidad
-    } else {
-        // Si no existe, lo añade como un nuevo item
-        cart.push({
-            id: productId,
-            name: productName,
-            price: price,
-            quantity: 1
+    function attachCartListeners() {
+        const addToCartButtons = document.querySelectorAll('.add-to-cart');
+        addToCartButtons.forEach(button => {
+            button.addEventListener('click', addToCart);
         });
     }
 
-    alert(`¡${productName.trim()} añadido al carrito!`);
-    updateCartDisplay(); // Llama a la función para actualizar el total
-}
+    // Eventos del Sidebar
+    cartIconElement.addEventListener('click', openCartSidebar);
+    closeCartBtn.addEventListener('click', closeCartSidebar);
+    cartOverlay.addEventListener('click', closeCartSidebar);
 
-// Función para asignar los listeners a todos los botones 'AÑADIR AL CARRITO'
-function attachCartListeners() {
-    const addToCartButtons = document.querySelectorAll('.add-to-cart');
-    addToCartButtons.forEach(button => {
-        button.addEventListener('click', addToCart);
-    });
-}
-
-updateCartDisplay();
-    fetchAndRenderProducts();
-    startBannerRotation();
+    // Inicializa el total del carrito al cargar la página
+    updateCartDisplay();
 });
 
