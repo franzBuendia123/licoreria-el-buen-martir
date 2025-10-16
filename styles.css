@@ -107,7 +107,7 @@ body {
 /* ESTILOS DEL CARRUSEL DE BANNERS */
 .main-banner.full-width-banner {
     position: relative; 
-    height: 350px; 
+    height: 250px; 
     overflow: hidden;
     margin-bottom: 20px;
 }
@@ -388,6 +388,7 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
 
 
 
