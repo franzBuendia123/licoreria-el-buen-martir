@@ -220,7 +220,11 @@ body {
     gap: 20px;
 }
 
+/* 1. Contenedor principal de la tarjeta: Usamos Flexbox para control de altura */
 .product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Distribuye el espacio y pega el botón al fondo */
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 15px;
@@ -238,50 +242,48 @@ body {
     font-size: 12px;
 }
 
-/* Contenedor de precios para asegurar la alineación del botón (min-height) */
-.price-container {
-    min-height: 40px; 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 5px 0;
-    margin: 0; 
-}
-
+/* Imagen (Corrección de Opacidad) */
 .product-image {
     width: 80%;
     height: auto;
     margin-bottom: 10px;
-    /* Corrección: La opacidad es 1 para que las imágenes se vean nítidas */
-    opacity: 1;
+    opacity: 1; 
 }
 
+/* 2. Área de Precios: Fuerza la altura para evitar desalineación */
+.price-container {
+    min-height: 40px; 
+    display: block;  
+    margin: 5px 0 10px 0; 
+}
+
+/* 3. Precios: Asegura márgenes y display */
 .price-old {
+    display: block; 
     text-decoration: line-through;
     color: #999;
     font-size: 12px;
-    margin: 0;
-    line-height: 1.2;
+    margin: 0; 
 }
 
 .price-new {
+    display: block;
     font-weight: bold;
     color: #e3001a;
     font-size: 16px;
-    margin: 0;
-    line-height: 1.2;
+    margin: 0; 
 }
 
+/* 4. Botón: Se pega al fondo de la tarjeta Flexbox */
 .add-to-cart {
     background-color: #000;
     color: #fff;
     border: none;
     padding: 10px 15px;
-    margin-top: 5px; 
     cursor: pointer;
     width: 100%;
     font-size: 14px;
+    margin-top: auto; /* IMPORTANTE: Lo empuja al final */
 }
 
 
