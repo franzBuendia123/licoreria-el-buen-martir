@@ -196,3 +196,118 @@ document.addEventListener('DOMContentLoaded', () => {
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = `<p id="emptyCartMessage" style="text-align: center; margin-top: 20px;">Tu carrito está vacío.</p>`;
             cartTotalValue.textContent = '0.00';
+            // Actualizar el total en la barra de navegación
+            const navTotal = document.getElementById('cartTotalValue'); 
+            if (navTotal) navTotal.textContent = '0.00'; 
+            return;
+        }
+
+        cart.forEach(item => {
+            const price = parseFloat(item.price);
+            const itemTotal = price * item.quantity;
+            total += itemTotal;
+            
+            const cartItemHTML = `
+                <div class="cart-item" data-product-id="${item._id}">
+                    <img src="img/${item.image}" alt="${item.name}" class="cart-item-img">
+                    <div class="item-details">
+                        <p class="item-name">${item.name}</p>
+                        <div class="item-quantity-controls">
+                            <button class="quantity-btn decrease" data-id="${item._id}">-</button>
+                            <span class="item-quantity">${item.quantity}</span>
+                            <button class="quantity-btn increase" data-id="${item._id}">+</button>
+                        </div>
+                    </div>
+                    <p class="item-price">S/ ${itemTotal.toFixed(2)}</p>
+                    <button class="remove-item-btn" data-id="${item._id}">&times;</button>
+                </div>
+            `;
+            cartItemsContainer.innerHTML += cartItemHTML;
+        });
+
+        // Actualizar el total en el carrito lateral
+        cartTotalValue.textContent = total.toFixed(2);
+        
+        // Actualizar el total en la barra de navegación (se usa el mismo ID)
+        const navTotal = document.getElementById('cartTotalValue'); 
+        if (navTotal) navTotal.textContent = total.toFixed(2);
+
+        attachCartControlsListeners();
+    }
+    
+    function attachCartControlsListeners() {
+        const controls = document.querySelectorAll('.cart-item');
+        controls.forEach(item => {
+            const productId = item.dataset.productId;
+            
+            item.querySelector('.remove-item-btn').addEventListener('click', () => removeItemFromCart(productId));
+            item.querySelector('.quantity-btn.increase').addEventListener('click', () => updateQuantity(productId, 1));
+            item.querySelector('.quantity-btn.decrease').addEventListener('click', () => updateQuantity(productId, -1));
+        });
+    }
+
+    function updateQuantity(productId, change) {
+        const itemIndex = cart.findIndex(item => item._id.toString() === productId);
+
+        if (itemIndex > -1) {
+            cart[itemIndex].quantity += change;
+
+            if (cart[itemIndex].quantity <= 0) {
+                removeItemFromCart(productId);
+            } else {
+                renderCart();
+            }
+        }
+    }
+
+    function removeItemFromCart(productId) {
+        cart = cart.filter(item => item._id.toString() !== productId);
+        renderCart();
+    }
+    
+    /**
+     * Maneja la finalización de la compra.
+     */
+    function handleCheckout() {
+        if (cart.length === 0) {
+            alert("Tu carrito está vacío. Añade productos para finalizar la compra.");
+            return;
+        }
+
+        // 1. Mostrar mensaje de agradecimiento
+        cartItemsContainer.innerHTML = `
+            <div style="text-align: center; padding: 50px 20px;">
+                <h3 style="color: #e3001a; font-size: 24px;">¡GRACIAS POR LA COMPRA!</h3>
+                <p>Tu pedido será procesado pronto. Recibirás una notificación.</p>
+            </div>
+        `;
+
+        // 2. Restablecer valores
+        cart = []; // Vaciar el carrito
+        
+        // 3. Cerrar el carrito y restablecer el estado (vacío y 0.00) después del mensaje
+        setTimeout(() => {
+            renderCart(); // Renderiza el carrito vacío (total S/ 0.00)
+            closeCart(); 
+        }, 2500);
+    }
+
+
+    // ====================================================================
+    // 5. INICIO DE LA APLICACIÓN
+    // ====================================================================
+    
+    // Función principal que inicia la carga de productos.
+    async function loadProducts() {
+        if (productGrid) {
+            productGrid.innerHTML = '<p style="grid-column: 1 / -1; text-align: center;">Cargando productos de El Buen Mártir...</p>';
+        }
+        
+        const products = await getProductsFromDatabase();
+        fetchAndRenderProducts(products);
+    }
+
+    // Iniciar la carga de productos al finalizar la carga del DOM
+    loadProducts();
+
+});
