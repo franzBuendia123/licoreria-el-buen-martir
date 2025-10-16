@@ -107,7 +107,7 @@ body {
 /* ESTILOS DEL CARRUSEL DE BANNERS */
 .main-banner.full-width-banner {
     position: relative; 
-    height: 250px; 
+    height: 350px; 
     overflow: hidden;
     margin-bottom: 20px;
 }
@@ -128,8 +128,9 @@ body {
     align-items: center;
     padding: 30px 40px;
     color: #fff;
-    background-size: cover;
-    background-position: center;
+    background-size: cover;       
+    background-position: center;  
+    background-repeat: no-repeat;
 }
 
 /* Slide Activo (Lo muestra) */
@@ -390,5 +391,6 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
 
 
