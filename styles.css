@@ -220,11 +220,8 @@ body {
     gap: 20px;
 }
 
-/* 1. Contenedor principal de la tarjeta: Usamos Flexbox para control de altura */
 .product-card {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between; /* Distribuye el espacio y pega el botón al fondo */
+    height: 420px; 
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 15px;
@@ -274,7 +271,6 @@ body {
     margin: 0; 
 }
 
-/* 4. Botón: Se pega al fondo de la tarjeta Flexbox */
 .add-to-cart {
     background-color: #000;
     color: #fff;
@@ -283,7 +279,9 @@ body {
     cursor: pointer;
     width: 100%;
     font-size: 14px;
-    margin-top: auto; /* IMPORTANTE: Lo empuja al final */
+    
+    /* Usa un margen fijo pequeño, pero no 'auto' */
+    margin-top: 10px; 
 }
 
 
@@ -355,3 +353,4 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
