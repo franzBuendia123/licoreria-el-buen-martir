@@ -107,7 +107,7 @@ body {
 /* 🎯 Banner de Promoción a Ancho Completo */
 .full-width-banner {
     /* El banner debe usar el ancho completo del contenedor principal */
-    background-color: #008888; 
+    background-color: #008888;
     color: #fff;
     padding: 30px 40px;
     height: 200px;
@@ -243,7 +243,8 @@ body {
     width: 80%;
     height: auto;
     margin-bottom: 10px;
-    opacity: 0.1; /* Solo para simular la imagen sin tenerla */
+    /* CORRECCIÓN: La opacidad debe ser 1 (completamente visible) */
+    opacity: 1; 
 }
 
 .price-old {
@@ -336,6 +337,6 @@ body {
     /* Placeholder para la imagen del libro */
     height: 80px;
     width: 150px;
-    background-color: #222; 
+    background-color: #222;
     margin-top: 20px;
 }
