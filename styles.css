@@ -360,5 +360,37 @@ body {
     margin-top: 20px;
 }
 
+.description-text {
+    /* Oculta el texto que se sale del contenedor */
+    overflow: hidden; 
+    flex-basis: 40%;
+    text-align: right;
+    font-style: italic;
+    font-size: 16px;
+    line-height: 1.4;
+    font-weight: bold;
+    padding: 10px; /* Asegura un poco de espacio */
+}
+
+.moving-text {
+    /* Aplica la animación */
+    animation: slideRightToLeft 15s linear infinite;
+    
+    /* CRÍTICO: Fuerza que el texto permanezca en una sola línea y tenga espacio para moverse */
+    white-space: nowrap; 
+    width: 200%; 
+    margin: 0;
+}
+
+@keyframes slideRightToLeft {
+    /* El texto comienza al 0% de la animación, completamente fuera del área visible a la derecha */
+    0% {
+        transform: translateX(100%); 
+    }
+    /* El texto termina al 100% de la animación, moviéndose al 100% de su ancho hacia la izquierda */
+    100% {
+        transform: translateX(-100%); 
+    }
+}
 
 
