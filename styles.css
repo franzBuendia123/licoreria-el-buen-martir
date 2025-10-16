@@ -31,7 +31,7 @@ body {
     font-weight: bold;
 }
 
-/* 2. Barra de Navegación Principal */
+/* 2. Barra de Navegación Principal (Usamos <header> y <nav> semántico) */
 .main-nav {
     background-color: #000;
     color: #fff;
@@ -104,16 +104,52 @@ body {
     font-weight: bold;
 }
 
-/* Banner de Promoción a Ancho Completo */
-.full-width-banner {
-    background-color: #008888;
-    color: #fff;
-    padding: 30px 40px;
-    height: 200px;
+/* ESTILOS DEL CARRUSEL DE BANNERS */
+.main-banner.full-width-banner {
+    position: relative; /* CRÍTICO: Para posicionar los slides */
+    height: 250px; /* Altura fija para el banner */
+    overflow: hidden;
     margin-bottom: 20px;
-    display: flex;
-    align-items: center;
+}
+
+.banner-slide {
+    /* Oculta todos los slides por defecto */
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1s ease-in-out; /* Animación de fade */
+    
+    /* Organización del contenido dentro del slide */
+    display: flex; 
     justify-content: space-between;
+    align-items: center;
+    padding: 30px 40px;
+    color: #fff;
+    
+    /* Estilos de imagen/fondo - Ajusta las rutas según tus archivos */
+    background-size: cover;
+    background-position: center;
+}
+
+/* Slide Activo (Lo muestra) */
+.banner-slide.active {
+    opacity: 1; 
+    z-index: 10;
+}
+
+/* Fondos específicos (Añade tantos como slides tengas) */
+.banner-slide.slide-1 {
+    background-color: #008888; 
+    /* Si tienes una imagen de fondo grande para Botran, descomenta y ajusta: */
+    /* background-image: url('img/botran-bg.jpg'); */
+}
+
+.banner-slide.slide-2 {
+    background-color: #333; 
+    /* background-image: url('img/enemigo-bg.jpg'); */
 }
 
 .botan-details {
@@ -131,23 +167,38 @@ body {
 }
 
 .description-text {
+    /* Estilos para la animación de texto (Scroll horizontal) */
     flex-basis: 40%;
     text-align: right;
     font-style: italic;
     font-size: 16px;
     line-height: 1.4;
     font-weight: bold;
+    overflow: hidden; /* Oculta el texto que se sale */
+    padding: 10px 0;
+}
+
+.moving-text {
+    animation: slideRightToLeft 15s linear infinite;
+    white-space: nowrap; 
+    width: 200%; 
+    margin: 0;
+}
+
+@keyframes slideRightToLeft {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
 }
 
 
-/* 4. y 5. Área de Filtros y Productos (Estructura de dos columnas) */
+/* 4. y 5. Área de Filtros y Productos */
 .products-section {
     display: flex;
     gap: 20px;
     padding: 20px 0;
 }
 
-/* 4. Menú Lateral (Sidebar) */
+/* 4. Menú Lateral (Sidebar - Usamos <aside> semántico) */
 .sidebar {
     width: 250px;
     background-color: #fff;
@@ -220,8 +271,9 @@ body {
     gap: 20px;
 }
 
+/* 1. Contenedor principal de la tarjeta: Solución con ALTURA FIJA para garantizar alineación */
 .product-card {
-    height: 370px; 
+    height: 380px; /* Altura fija para el tamaño ideal de la tarjeta */
     overflow: hidden; 
     background-color: #fff;
     border: 1px solid #ddd;
@@ -248,22 +300,24 @@ body {
     opacity: 1; 
 }
 
+/* 2. FORZAR LA ALTURA DEL NOMBRE DEL PRODUCTO */
 .product-card .name {
-    height: 50px; /* Suficiente para 2-3 líneas de texto. Esto detiene el empuje. */
-    overflow: hidden; /* Oculta el texto si es demasiado largo para la altura */
-    margin: 10px 0; /* Margen fijo para separar de la imagen y los precios */
+    height: 50px; /* Suficiente para 2-3 líneas de texto. */
+    overflow: hidden; 
+    margin: 10px 0; 
     font-size: 14px;
     line-height: 1.2;
     font-weight: bold;
 }
 
+/* 3. Área de Precios: Se mantiene la altura mínima como seguro */
 .price-container {
     min-height: 40px; 
     display: block;  
     margin: 5px 0 10px 0; 
 }
 
-/* 3. Precios: Asegura márgenes y display */
+/* 4. Precios: Asegura márgenes y display */
 .price-old {
     display: block; 
     text-decoration: line-through;
@@ -280,6 +334,7 @@ body {
     margin: 0; 
 }
 
+/* 5. Botón: Se mantiene la posición fija */
 .add-to-cart {
     background-color: #000;
     color: #fff;
@@ -290,6 +345,7 @@ body {
     font-size: 14px;
     margin-top: 10px; 
 }
+
 
 /* 6. Pie de Página (Footer) */
 .main-footer {
@@ -359,38 +415,3 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
-
-.description-text {
-    /* Oculta el texto que se sale del contenedor */
-    overflow: hidden; 
-    flex-basis: 40%;
-    text-align: right;
-    font-style: italic;
-    font-size: 16px;
-    line-height: 1.4;
-    font-weight: bold;
-    padding: 10px; /* Asegura un poco de espacio */
-}
-
-.moving-text {
-    /* Aplica la animación */
-    animation: slideRightToLeft 15s linear infinite;
-    
-    /* CRÍTICO: Fuerza que el texto permanezca en una sola línea y tenga espacio para moverse */
-    white-space: nowrap; 
-    width: 200%; 
-    margin: 0;
-}
-
-@keyframes slideRightToLeft {
-    /* El texto comienza al 0% de la animación, completamente fuera del área visible a la derecha */
-    0% {
-        transform: translateX(100%); 
-    }
-    /* El texto termina al 100% de la animación, moviéndose al 100% de su ancho hacia la izquierda */
-    100% {
-        transform: translateX(-100%); 
-    }
-}
-
-
