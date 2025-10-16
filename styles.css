@@ -52,10 +52,9 @@ body {
     font-weight: bold;
 }
 
-.gourmet {
-    font-style: italic;
-    font-size: 0.7em;
-    font-weight: normal;
+.search-area {
+    display: flex;
+    align-items: center;
 }
 
 .search-area input, .search-area select {
@@ -94,10 +93,16 @@ body {
     font-size: 18px;
     color: #e3001a;
     cursor: pointer; 
+    margin-left: 20px;
+}
+.cart a {
+    font-size: 12px;
+    color: #fff;
+    font-weight: normal;
+    text-decoration: underline;
 }
 
-
-/* 3. Contenido Principal / Banner de Advertencia Superior */
+/* Banner de Advertencia Superior */
 .warning-banner-top {
     background-color: #555;
     color: #fff;
@@ -107,10 +112,10 @@ body {
     font-weight: bold;
 }
 
-/* ESTILOS DEL CARRUSEL DE BANNERS (aunque el JS ya no lo use, se mantienen los estilos) */
+/* 3. ESTILOS DEL CARRUSEL DE BANNERS */
 .main-banner.full-width-banner {
     position: relative; 
-    height: 250px; 
+    height: 350px; /* Aumentado para mejor visualización */
     overflow: hidden;         
     margin-bottom: 20px;
 }
@@ -123,40 +128,38 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 1s ease-in-out; 
-    background-size: contain; 
+    background-size: cover; /* Cambiado a cover para un banner más grande */
     background-position: center;  
     background-repeat: no-repeat;
     background-color: #000; 
 }
 
-/* CRÍTICO: Necesitas tener estas imágenes en tu carpeta img/ para que se vean */
-.banner-slide.slide-1 { background-image: url('img/slider1.png'); }
-.banner-slide.slide-2 { background-image: url('img/slider2.png'); }
-.banner-slide.slide-3 { background-image: url('img/slider3.png'); }
-.banner-slide.slide-4 { background-image: url('img/slider4.png'); }
+/* CRÍTICO: Asegúrate de tener estas imágenes en tu carpeta img/ */
+.banner-slide.slide-1 { background-image: url('img/slider1.jpg'); }
+.banner-slide.slide-2 { background-image: url('img/slider2.jpg'); }
+.banner-slide.slide-3 { background-image: url('img/slider3.jpg'); }
+.banner-slide.slide-4 { background-image: url('img/slider4.jpg'); }
 
 .banner-slide.active {
     opacity: 1; 
     z-index: 10;
 }
 
-/* 4. y 5. Área de Filtros y Productos */
+/* 4. Área de Filtros y Productos */
 .products-section {
-    /* CRÍTICO: Arregla la alineación horizontal de sidebar y productos */
     display: flex; 
     flex-wrap: nowrap;
     gap: 20px;
     padding: 20px 0;
 }
 
-/* 4. Menú Lateral (Sidebar) */
+/* Menú Lateral (Sidebar) */
 .sidebar {
     width: 250px;
     background-color: #fff;
     border: 1px solid #ddd;
     box-shadow: 0 0 5px rgba(0,0,0,0.05);
     height: fit-content;
-    /* CRÍTICO: Evita que el sidebar se achique */
     flex-shrink: 0; 
 }
 
@@ -168,6 +171,12 @@ body {
     font-size: 16px;
     display: flex;
     justify-content: space-between;
+}
+.sidebar-header-2 {
+    font-weight: bold;
+    color: #333;
+    padding: 10px 15px;
+    border-bottom: 1px solid #eee;
 }
 
 .category-list {
@@ -196,9 +205,8 @@ body {
 }
 
 
-/* 5. Área de Productos */
+/* Área de Productos */
 .product-area {
-    /* CRÍTICO: Toma el espacio restante y arregla la alineación */
     flex-grow: 1;
     min-width: 0;
 }
@@ -232,13 +240,16 @@ body {
 
 /* ALINEACIÓN PERFECTA DE TARJETAS */
 .product-card {
-    height: 380px; 
+    height: 400px; /* Ajustado para contener la información */
     overflow: hidden; 
     background-color: #fff;
     border: 1px solid #ddd;
     padding: 15px;
     text-align: center;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .sale-tag {
@@ -253,13 +264,13 @@ body {
 
 .product-image {
     width: 80%;
-    height: auto;
-    margin-bottom: 10px;
-    opacity: 1; 
+    max-height: 180px; /* Altura máxima para la imagen */
+    object-fit: contain;
+    margin: 0 auto 10px auto;
 }
 
 .product-card .name {
-    height: 50px; 
+    height: 40px; 
     overflow: hidden; 
     margin: 10px 0; 
     font-size: 14px;
@@ -300,7 +311,7 @@ body {
     margin-top: 10px; 
 }
 
-/* 6. Pie de Página (Footer) */
+/* 5. Pie de Página (Footer) */
 .main-footer {
     background-color: #000;
     color: #fff;
@@ -374,3 +385,169 @@ body {
     font-weight: bold;
 }
 
+
+/* 6. ESTILOS DEL CARRITO LATERAL */
+
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px; 
+    height: 100%;
+    background-color: #f8f8f8;
+    box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
+    z-index: 1000; 
+    overflow-y: hidden; /* Controlado por el contenedor de items */
+    
+    /* Estado inicial oculto */
+    transform: translateX(100%);
+    transition: transform 0.3s ease-in-out;
+    display: flex;
+    flex-direction: column;
+}
+
+.cart-sidebar.open {
+    /* Muestra el carrito deslizándolo a la posición 0 */
+    transform: translateX(0); 
+}
+
+.backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    /* Estado inicial oculto */
+    display: none; 
+}
+
+/* Estilos de la cabecera del carrito (la barra roja) */
+.cart-header {
+    background-color: #e3001a;
+    color: #fff;
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+}
+
+.cart-title {
+    margin: 0;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.close-btn {
+    font-size: 30px;
+    font-weight: normal;
+    cursor: pointer;
+    line-height: 1;
+    margin-right: 10px;
+}
+
+/* Contenedor de items y pie de página */
+.cart-items-container {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.cart-footer {
+    padding: 20px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    flex-shrink: 0;
+}
+
+.cart-total {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: #000;
+}
+
+.checkout-btn {
+    background-color: #e3001a;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+    margin-bottom: 10px;
+}
+
+.view-cart-btn {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    width: 100%;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Estilos de cada producto dentro del carrito */
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+    font-size: 14px;
+}
+
+.cart-item-img {
+    width: 50px;
+    height: 50px;
+    margin-right: 10px;
+    object-fit: contain;
+}
+
+.item-details {
+    flex-grow: 1;
+}
+
+.item-name {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.item-quantity-controls {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-btn {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 5px 8px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.item-quantity {
+    padding: 5px 10px;
+    border: 1px solid #ccc;
+    margin: 0 5px;
+    width: 30px;
+    text-align: center;
+    display: inline-block;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #e3001a;
+    margin-left: 15px;
+}
+
+.remove-item-btn {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 10px;
+}
