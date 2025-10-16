@@ -1,30 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ====================================================================
-    // 1. LÓGICA DEL CARRUSEL (SLIDER)
-    // ====================================================================
-
-    const slides = document.querySelectorAll('.banner-slide');
-    let currentSlide = 0;
-
-    function nextSlide() {
-        if (slides.length === 0) return; 
-
-        slides[currentSlide].classList.remove('active');
-        currentSlide = (currentSlide + 1) % slides.length;
-        slides[currentSlide].classList.add('active');
-    }
-
-    if (slides.length > 0) {
-        slides[0].classList.add('active');
-    }
-    
-    // Inicia la rotación automática cada 5 segundos
-    setInterval(nextSlide, 5000); 
-
-
-    // ====================================================================
-    // 2. LÓGICA DE CARGA DE PRODUCTOS DESDE EL BACKEND (API)
+    // 1. LÓGICA DE CARGA DE PRODUCTOS DESDE EL BACKEND (API)
     // ====================================================================
     
     const productGrid = document.getElementById('productGrid');
@@ -34,20 +11,22 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     async function getProductsFromDatabase() {
         try {
-            // URL ABSOLUTA del servidor de Render.
+            // URL ABSOLUTA que apunta al endpoint de tu Backend.
             const API_URL = 'https://licoreria-el-buen-martir-backend.onrender.com/api/products'; 
             
             const response = await fetch(API_URL);
 
             if (!response.ok) {
+                // Si hay un error HTTP (404, 500, etc.)
                 throw new Error(`Error ${response.status}: No se pudo obtener la lista de productos.`);
             }
 
+            // Devuelve el JSON real de productos
             return await response.json(); 
             
         } catch (error) {
             console.error("Error al cargar productos desde la API:", error);
-            // Mostrar error si falla la conexión
+            // Muestra un mensaje de error si falla la conexión (e.g., servidor dormido)
             if (productGrid) {
                 productGrid.innerHTML = `
                     <p style="grid-column: 1 / -1; text-align: center; color: red; padding: 20px;">
@@ -76,18 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productos.forEach(producto => {
             
-            // **** Mapeo FINAL de Campos basado en tu MongoDB (image_6b557e.jpg) ****
+            // **** Mapeo de Campos basado en tu estructura de MongoDB (imagen_url, precio_regular, descuento_porcentaje) ****
             const precioRegular = producto.precio_regular;
             const precioOferta = producto.precio_oferta;
             const descuento = producto.descuento_porcentaje; 
-            const imagenUrl = producto.imagen_url || 'placeholder-bottle.png';
+            const imagenUrl = producto.imagen_url || 'placeholder-bottle.png'; 
             
-            // Generación de HTML
-            
-            // 1. Tag de Descuento (Solo si existe y es mayor a 0)
+            // 1. Tag de Descuento
             const saleTag = (descuento && descuento > 0) ? `<div class="sale-tag">-${descuento}%</div>` : '';
             
-            // 2. Precio Anterior (Solo si existe y es diferente al de oferta)
+            // 2. Precio Anterior
             const oldPriceHTML = (precioRegular && precioRegular !== precioOferta) 
                                 ? `<p class="price-old">S/ ${precioRegular.toFixed(2)}</p>` 
                                 : '';
@@ -101,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     
                     <div class="price-container">
                         ${oldPriceHTML}
-                        <p class="price-new">S/ ${precioOferta ? precioOferta.toFixed(2) : '0.00'}</p>
+                        <p class="price-new">S/ ${precioOferta ? precioOferta.toFixed(2) : (precioRegular ? precioRegular.toFixed(2) : '0.00')}</p>
                     </div>
                     
                     <button class="add-to-cart" data-product-id="${producto._id}">
