@@ -17,15 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
             productos.forEach(producto => {
                 const cardHTML = `
-    <div class="product-card">
-        <span class="sale-tag">-${producto.descuento_porcentaje || '0%'}</span>
-        <img src="img/${producto.imagen_url || 'placeholder-bottle.png'}" alt="${producto.nombre}" class="product-image">
-        <p class="name">${producto.nombre}</p>
-        ${producto.precio_regular ? `<p class="price-old">S/ ${producto.precio_regular.toFixed(2)}</p>` : ''}
-        <p class="price-new">S/ ${producto.precio_oferta.toFixed(2)}</p>
-        <button class="add-to-cart">AÑADIR AL CARRITO</button>
-    </div>
-`;
+                    <div class="product-card">
+                        <span class="sale-tag">-${producto.descuento_porcentaje || '0%'}</span>
+                        
+                        <a href="${productLink}">
+                            <img src="img/${producto.imagen_url || 'placeholder-bottle.png'}" alt="${producto.nombre}" class="product-image">
+                            <p class="name">${producto.nombre}</p>
+                        </a>
+                        
+                        <div class="price-container">
+                            ${producto.precio_regular ? `<p class="price-old">S/ ${producto.precio_regular.toFixed(2)}</p>` : ''}
+                            <p class="price-new">S/ ${producto.precio_oferta.toFixed(2)}</p>
+                        </div>
+                        
+                        <button class="add-to-cart">AÑADIR AL CARRITO</button>
+                    </div>
+                `;
                 productGrid.innerHTML += cardHTML;
             });
 
@@ -41,4 +48,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     fetchAndRenderProducts();
 });
+
 
