@@ -57,11 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // ====================================================================
     function startBannerRotation() {
         const slides = document.querySelectorAll('.banner-slide');
-        if (slides.length < 2) return; // Necesita al menos 2 slides para rotar
+        if (slides.length < 2) return; 
 
         let currentSlideIndex = 0;
         
-        // Se asegura que solo el primer slide esté activo al inicio
+        // Inicializa el carrusel forzando al primer slide a estar activo
         slides.forEach((slide, index) => {
             if (index === 0) {
                 slide.classList.add('active');
@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     // ====================================================================
-    // 3. INICIALIZACIÓN (LLAMADA A LAS FUNCIONES CUANDO EL DOM ESTÁ LISTO)
+    // 3. INICIALIZACIÓN
     // ====================================================================
 
     fetchAndRenderProducts();
     startBannerRotation();
-}); // Cierre único y correcto del 'DOMContentLoaded'
+});
