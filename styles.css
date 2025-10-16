@@ -221,7 +221,7 @@ body {
 }
 
 .product-card {
-    height: 420px; 
+    height: 370px; 
     overflow: hidden; 
     background-color: #fff;
     border: 1px solid #ddd;
@@ -359,5 +359,6 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
 
 
