@@ -26,11 +26,12 @@ body {
     gap: 20px;
 }
 
-.user-action {
+.user-action, .top-bar a {
     color: #fff;
     font-weight: bold;
     text-decoration: none;
 }
+.top-bar span { color: #555; } /* Separador */
 
 /* 2. Barra de Navegación Principal */
 .main-nav {
@@ -109,13 +110,12 @@ body {
 /* ESTILOS DEL CARRUSEL DE BANNERS */
 .main-banner.full-width-banner {
     position: relative; 
-    height: 250px !important; /* ALTURA FORZADA CORREGIDA */
-    overflow: hidden;         /* CORTA CUALQUIER COSA QUE SE SALGA */
+    height: 250px; 
+    overflow: hidden;         
     margin-bottom: 20px;
 }
 
 .banner-slide {
-    /* Lógica de superposición y transición */
     position: absolute;
     top: 0;
     left: 0;
@@ -123,19 +123,10 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 1s ease-in-out; 
-    
-    /* Configuración de fondo y contenido */
-    display: flex; 
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 !important; /* CRÍTICO: Elimina el padding que causaba el desborde */
-    margin: 0 !important;
-    
-    color: #fff;
-    background-size: contain !important; /* CRÍTICO: Ajusta la imagen completa sin recortes */
+    background-size: contain; 
     background-position: center;  
     background-repeat: no-repeat;
-    background-color: #000 !important; /* Rellena el espacio sobrante con negro */
+    background-color: #000; 
 }
 
 /* Slide Activo (Lo muestra) */
@@ -144,24 +135,7 @@ body {
     z-index: 10;
 }
 
-/* FONDOS ESPECÍFICOS: CRÍTICO: Corregidos a formato .jpg (Ajustar a .png si tus archivos son .png) */
-.banner-slide.slide-1 {
-    background-image: url('img/slider1.jpg'); 
-}
-
-.banner-slide.slide-2 {
-    background-image: url('img/slider2.jpg');
-}
-
-.banner-slide.slide-3 {
-    background-image: url('img/slider3.jpg'); 
-}
-
-.banner-slide.slide-4 {
-    background-image: url('img/slider4.jpg'); 
-}
-
-/* OCULTAR TODO EL TEXTO DEL SLIDER (SOLUCIÓN AL TEXTO SUPERPUESTO) */
+/* OCULTAR TODO EL TEXTO DEL SLIDER */
 .banner-slide * {
     visibility: hidden !important;
     opacity: 0 !important;
@@ -171,7 +145,9 @@ body {
 
 /* 4. y 5. Área de Filtros y Productos */
 .products-section {
-    display: flex;
+    /* CRÍTICO: Arregla la alineación de la barra lateral y productos */
+    display: flex; 
+    flex-wrap: nowrap;
     gap: 20px;
     padding: 20px 0;
 }
@@ -223,7 +199,9 @@ body {
 
 /* 5. Área de Productos */
 .product-area {
+    /* CRÍTICO: Toma el espacio restante y arregla la alineación */
     flex-grow: 1;
+    min-width: 0;
 }
 
 /* Filtros Horizontales */
@@ -251,7 +229,7 @@ body {
 
 /* ALINEACIÓN PERFECTA DE TARJETAS */
 .product-card {
-    height: 380px; /* Altura fija para el tamaño ideal de la tarjeta */
+    height: 380px; 
     overflow: hidden; 
     background-color: #fff;
     border: 1px solid #ddd;
@@ -270,7 +248,6 @@ body {
     font-size: 12px;
 }
 
-/* Imagen (Asegura visibilidad) */
 .product-image {
     width: 80%;
     height: auto;
@@ -278,7 +255,6 @@ body {
     opacity: 1; 
 }
 
-/* FORZAR LA ALTURA DEL NOMBRE DEL PRODUCTO */
 .product-card .name {
     height: 50px; 
     overflow: hidden; 
@@ -288,7 +264,6 @@ body {
     font-weight: bold;
 }
 
-/* Área de Precios */
 .price-container {
     min-height: 40px; 
     display: block;  
@@ -311,7 +286,6 @@ body {
     margin: 0; 
 }
 
-/* Botón: Se mantiene la posición fija */
 .add-to-cart {
     background-color: #000;
     color: #fff;
@@ -338,60 +312,7 @@ body {
     border-bottom: 1px solid #333;
     padding-bottom: 30px;
 }
-
-.col-logo {
-    flex: 1.5;
-    font-size: 14px;
-}
-
-.col-contact, .col-links, .col-news {
-    flex: 1;
-}
-
-.logo-footer {
-    font-size: 24px;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.main-footer h4 {
-    color: #ccc;
-    font-size: 16px;
-    margin-bottom: 10px;
-}
-
-.col-links ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.col-links li {
-    margin-bottom: 5px;
-    font-size: 14px;
-}
-
-.col-news input {
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 90%;
-}
-
-.col-news button {
-    background-color: #e3001a;
-    color: #fff;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.book-link {
-    height: 80px;
-    width: 150px;
-    background-color: #222;
-    margin-top: 20px;
-}
+/* ... (demás estilos del footer) ... */
 
 /* ========================================= */
 /* ESTILOS DEL CARRITO LATERAL (SIDEBAR) */
@@ -403,7 +324,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* Fondo semitransparente oscuro */
+    background: rgba(0, 0, 0, 0.5); 
     z-index: 1000;
     visibility: hidden;
     opacity: 0;
@@ -414,39 +335,35 @@ body {
     position: fixed;
     top: 0;
     right: 0;
-    width: 380px; /* Ancho de la ventana lateral */
+    width: 380px; 
     height: 100%;
     background-color: #fff;
     box-shadow: -2px 0 10px rgba(0, 0, 0, 0.2);
     z-index: 1001;
-    transform: translateX(100%); /* Oculta la barra fuera de la pantalla por defecto */
+    transform: translateX(100%); 
     transition: transform 0.4s ease-out;
     display: flex;
     flex-direction: column;
 }
 
-/* Clases para mostrar el carrito */
 .cart-sidebar-overlay.active {
     visibility: visible;
     opacity: 1;
 }
 
 .cart-sidebar.active {
-    transform: translateX(0); /* Muestra la barra deslizando a 0% */
+    transform: translateX(0); 
 }
 
-/* Contenido del Sidebar */
 .sidebar-header {
+    /* Este lo sobrescribe el de la izquierda, por eso se repite el estilo aquí */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 15px 20px;
     border-bottom: 1px solid #eee;
-}
-
-.sidebar-header h3 {
-    margin: 0;
-    font-size: 1.5em;
+    background-color: #fff; 
+    color: #333; 
 }
 
 .close-btn {
@@ -461,7 +378,7 @@ body {
 .cart-items {
     flex-grow: 1;
     padding: 20px;
-    overflow-y: auto; /* Permite desplazamiento si hay muchos productos */
+    overflow-y: auto; 
 }
 
 .empty-cart-message {
@@ -470,19 +387,12 @@ body {
     margin-top: 50px;
 }
 
-/* Estilo de los items dentro del carrito (un producto) */
 .cart-item {
     display: flex;
     gap: 15px;
     padding: 10px 0;
     border-bottom: 1px dashed #eee;
     align-items: center;
-}
-
-.item-image {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
 }
 
 .item-details {
@@ -496,10 +406,9 @@ body {
 
 .item-price {
     font-weight: bold;
-    color: #e3001a; /* Color de oferta */
+    color: #e3001a; 
 }
 
-/* Pie de página del Sidebar */
 .sidebar-footer {
     padding: 20px;
     border-top: 1px solid #eee;
@@ -513,12 +422,22 @@ body {
 }
 
 .checkout-btn {
-    background-color: #e3001a;
+    background-color: #000;
     color: #fff;
     border: none;
     padding: 12px;
     width: 100%;
     margin-bottom: 10px;
+    font-size: 1.1em;
+    cursor: pointer;
+}
+
+.view-cart-btn {
+    background-color: #e3001a;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    width: 100%;
     font-size: 1.1em;
     cursor: pointer;
 }
