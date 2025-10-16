@@ -340,3 +340,23 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
+.price-container {
+    /* Fuerza una altura que pueda contener dos líneas de texto */
+    min-height: 40px; 
+    
+    /* Centra el contenido verticalmente para mejor estética */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    
+    /* Asegura que no haya márgenes no deseados */
+    padding: 5px 0;
+    margin: 0; 
+}
+
+.price-old, .price-new {
+    margin: 0;
+    line-height: 1.2;
+}
