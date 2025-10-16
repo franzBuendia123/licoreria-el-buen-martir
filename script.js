@@ -1,10 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // ====================================================================
-    // 1. LÓGICA DEL CARRUSEL (SLIDER)
-    // ====================================================================
-
-    const slides = document.querySelectorAll('.banner-slide');
+   const slides = document.querySelectorAll('.banner-slide');
     let currentSlide = 0;
 
     function nextSlide() {
@@ -18,16 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         slides[currentSlide].classList.add('active');
     }
 
-    // Inicia la rotación automática cada 5 segundos
+
     setInterval(nextSlide, 5000); 
 
-
-    // ====================================================================
-    // 2. LÓGICA DE CARGA DE PRODUCTOS (SIMULADA)
-    // ====================================================================
-    // En una aplicación real, esto obtendría datos de una API.
-    // Aquí usamos datos simulados para probar el carrito.
-    
     const productGrid = document.getElementById('productGrid');
 
     // Datos simulados (CRÍTICO: Usamos el ID de ejemplo que el JS buscará)
@@ -77,12 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // Llama a la función para cargar los productos simulados
     fetchAndRenderProducts(mockProducts);
 
-
-    // ====================================================================
-    // 3. LÓGICA DEL CARRITO DE COMPRAS (VERSIÓN SIDEBAR)
-    // ====================================================================
-
-    // Elementos de la UI
     const cartTotalElement = document.querySelector('.cart span'); // Cabecera S/ 0.00
     const cartIconElement = document.querySelector('.cart'); 
     const cartSidebar = document.getElementById('cartSidebar');
@@ -91,10 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const cartItemsContainer = document.getElementById('cartItemsContainer');
     const sidebarCartTotal = document.getElementById('sidebarCartTotal');
 
-    // Inicializa el carrito
+
     let cart = JSON.parse(localStorage.getItem('elbuenmartir_cart')) || [];
 
-    // --- FUNCIONES DE UI ---
+
 
     function openCartSidebar() {
         cartSidebar.classList.add('active');
@@ -200,4 +182,5 @@ document.addEventListener('DOMContentLoaded', () => {
     // Inicializa el total del carrito al cargar la página
     updateCartDisplay();
 });
+
 
