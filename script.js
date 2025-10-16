@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     
     // ====================================================================
-    // 1. LÓGICA DE CARGA DE PRODUCTOS DESDE EL BACKEND (API)
+    // LÓGICA DE CARGA DE PRODUCTOS DESDE EL BACKEND (API)
     // ====================================================================
     
     const productGrid = document.getElementById('productGrid');
@@ -21,12 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 throw new Error(`Error ${response.status}: No se pudo obtener la lista de productos.`);
             }
 
-            // Devuelve el JSON real de productos
             return await response.json(); 
             
         } catch (error) {
             console.error("Error al cargar productos desde la API:", error);
-            // Muestra un mensaje de error si falla la conexión (e.g., servidor dormido)
+            // Muestra un mensaje de error si falla la conexión
             if (productGrid) {
                 productGrid.innerHTML = `
                     <p style="grid-column: 1 / -1; text-align: center; color: red; padding: 20px;">
@@ -55,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         productos.forEach(producto => {
             
-            // **** Mapeo de Campos basado en tu estructura de MongoDB (imagen_url, precio_regular, descuento_porcentaje) ****
+            // **** Mapeo de Campos de MongoDB ****
             const precioRegular = producto.precio_regular;
             const precioOferta = producto.precio_oferta;
             const descuento = producto.descuento_porcentaje; 
