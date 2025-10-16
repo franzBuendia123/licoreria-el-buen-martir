@@ -100,7 +100,36 @@ document.addEventListener('DOMContentLoaded', () => {
         const products = await getProductsFromDatabase();
         fetchAndRenderProducts(products);
     }
+    // ====================================================================
+    // 1. LÓGICA DEL CARRUSEL (SLIDER)
+    // ====================================================================
+
+    // Selecciona todos los elementos con la clase 'banner-slide' (de tu HTML)
+    const slides = document.querySelectorAll('.banner-slide');
+    let currentSlide = 0;
+
+    function nextSlide() {
+        if (slides.length === 0) return; 
+
+        // 1. Quita la clase 'active' de la diapositiva que se está mostrando.
+        slides[currentSlide].classList.remove('active');
+        
+        // 2. Calcula la siguiente diapositiva. El % slides.length asegura que regrese al inicio.
+        currentSlide = (currentSlide + 1) % slides.length;
+        
+        // 3. Añade la clase 'active' a la nueva diapositiva.
+        slides[currentSlide].classList.add('active');
+    }
+
+    if (slides.length > 0) {
+        // Asegura que la primera diapositiva esté visible al cargar la página.
+        slides[0].classList.add('active');
+    }
+    
+    // Inicia la rotación automática cada 5 segundos (5000 milisegundos).
+    setInterval(nextSlide, 5000);
     
     // Iniciar la carga al terminar de cargar el DOM
     loadProducts();
 });
+
