@@ -113,7 +113,6 @@ body {
 }
 
 .banner-slide {
-    /* Lógica de superposición y transición */
     position: absolute;
     top: 0;
     left: 0;
@@ -121,14 +120,12 @@ body {
     height: 100%;
     opacity: 0;
     transition: opacity 1s ease-in-out; 
-    
-    /* Configuración de fondo y contenido */
     display: flex; 
     justify-content: space-between;
     align-items: center;
     padding: 30px 40px;
     color: #fff;
-    background-size: cover;       
+    background-size: contain; 
     background-position: center;  
     background-repeat: no-repeat;
 }
@@ -391,6 +388,7 @@ body {
     background-color: #222;
     margin-top: 20px;
 }
+
 
 
 
