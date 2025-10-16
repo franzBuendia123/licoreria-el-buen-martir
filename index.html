@@ -6,31 +6,18 @@
 
     <title>Licorería El Buen Mártir | Vinos, Licores, Whisky y Ron en Perú</title>
     <meta name="description" content="Licorería El Buen Mártir - Vinos y licores premium en Perú: Encuentra las mejores ofertas, nuevos ingresos, whisky, ron, pisco y accesorios gourmet.">
-    <link rel="canonical" href="https://franzbuendia123.github.io/licoreria-el-buen-martir/#" />
     
-    <meta property="og:title" content="Licorería El Buen Mártir — Vinos y Licores">
-    <meta property="og:description" content="Ofertas, nuevos ingresos, lo más vendido y eventos en Licorería El Buen Mártir.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://franzbuendia123.github.io/licoreria-el-buen-martir/">
-    <meta property="og:image" content="https://franzbuendia123.github.io/licoreria-el-buen-martir/img/og-image-buenmartir.jpg">
-    <meta property="og:locale" content="es_PE">
-
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:site" content="@ElBuenMartirLic">
-    <meta name="twitter:creator" content="@ElBuenMartirLic">
-    
-    <link rel="icon" type="image/png" href="favicon.png"> 
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
 
     <header class="header-top">
         <div class="container top-bar">
-            <a href="mailto:franz.buendia959@gmail.com">📧 VENTAS@ELBUENMARTIR.COM</a>
+            <a href="mailto:franz.buendia959@gmail.com"><i class="fas fa-envelope"></i> VENTAS@ELBUENMARTIR.COM</a>
             <span>| </span><a href="https://www.google.com/?hl=es">📄 LIBRO DE RECLAMACIONES</a>
-            <span>| </span><a href="https://wa.me/51906527020" target="_blank">📞 906527020</a>
-            <span>| </span><a href="https://www.google.com/?hl=es" class="user-action">👤 INICIAR SESIÓN O REGISTRARSE</a>
+            <span>| </span><a href="https://wa.me/51906527020" target="_blank"><i class="fab fa-whatsapp"></i> 906527020</a>
+            <span>| </span><a href="https://www.google.com/?hl=es" class="user-action"><i class="fas fa-user"></i> INICIAR SESIÓN O REGISTRARSE</a>
         </div>
     </header>
 
@@ -44,9 +31,8 @@
                 </select>
             </div>
             <div class="cart">
-    S/ <span class="cart-total">0.00</span>
-                🛒
-            </div>
+                S/ <span class="cart-total">0.00</span> 
+                <i class="fas fa-shopping-cart"></i> </div>
         </div>
         <div class="container menu-links">
             <a href="#">SHOP</a>
@@ -57,16 +43,19 @@
         </div>
     </nav>
 
-    <main class="container">
-    <section class="main-banner full-width-banner">
-    <div class="banner-slide slide-1 active"></div> 
-    <div class="banner-slide slide-2"></div> 
-    <div class="banner-slide slide-3"></div> 
-    <div class="banner-slide slide-4"></div> 
-</section>
+    <div class="warning-banner-top">
+        TOMAR BEBIDAS ALCOHÓLICAS EN EXCESO ES DAÑINO PARA LA SALUD
+    </div>
 
+    <section class="main-banner full-width-banner">
+        <div class="banner-slide slide-1 active"></div> 
+        <div class="banner-slide slide-2"></div> 
+        <div class="banner-slide slide-3"></div> 
+        <div class="banner-slide slide-4"></div> 
+    </section>
+
+    <main class="container">
         <section class="products-section">
-    
             <aside class="sidebar">
                 <div class="sidebar-header">SALE <span class="plus-icon">+</span></div>
                 <ul class="category-list">
@@ -78,14 +67,19 @@
                     <li><a href="#" class="liquid-link">LIQUIDACIÓN</a></li>
                 </ul>
             </aside>
-
-                <div class="product-grid" id="product-list">
+            
+            <div class="product-area">
+                <div class="horizontal-filters">
+                    <label>FILTRAR:</label>
+                    <select><option>PRECIO</option></select>
+                    <select><option>POR TIPO</option></select>
+                </div>
+                <div class="product-grid" id="productGrid">
                     <p style="grid-column: 1 / -1; text-align: center;">Cargando productos de El Buen Mártir...</p>
                 </div>
-                
             </div>
-        </section>
 
+        </section>
     </main>
 
     <footer class="main-footer">
@@ -98,10 +92,9 @@
                 <h4>DIRECCIÓN:</h4>
                 <p>AVENIDA LOS CONQUISTADORES 875 SAN ISIDRO, LIMA. (Dirección de ejemplo)</p>
                 <h4>TELÉFONO:</h4>
-                <p><a href=""https://wa.me/51906527020" target="_blank"">+51 442 6850</a></p>
+                <p><a href="https://wa.me/51906527020" target="_blank">+51 442 6850</a></p>
                 <h4>CORREO:</h4>
                 <p><a href="mailto:franz.buendia959@gmail.com">📧 VENTAS@ELBUENMARTIR.COM</a></p>
-                
             </div>
             <div class="col-links">
                 <h4>SOBRE NOSOTROS</h4>
@@ -134,17 +127,23 @@
         </div>
     </footer>
 
+
+    <div class="cart-sidebar-overlay" id="cartOverlay"></div>
+    <div class="cart-sidebar" id="cartSidebar">
+        <div class="sidebar-header">
+            <h3>Tu Carrito</h3>
+            <button class="close-btn" id="closeCartBtn">×</button>
+        </div>
+        <div class="cart-items" id="cartItemsContainer">
+            <p class="empty-cart-message">Tu carrito está vacío.</p>
+        </div>
+        <div class="sidebar-footer">
+            <p>Total: <span id="sidebarCartTotal">S/ 0.00</span></p>
+            <button class="checkout-btn">Finalizar Compra</button>
+            <button class="view-cart-btn" id="viewCartBtn">Ver Carrito Completo</button>
+        </div>
+    </div>
     <script src="script.js"></script> 
 
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
