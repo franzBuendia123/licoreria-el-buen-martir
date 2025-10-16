@@ -50,4 +50,26 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchAndRenderProducts();
+function startBannerRotation() {
+    const slides = document.querySelectorAll('.banner-slide');
+    let currentSlideIndex = 0;
+    
+    function showNextSlide() {
+        // 1. Oculta el slide actual
+        slides[currentSlideIndex].classList.remove('active');
+        
+        // 2. Mueve al siguiente índice (o vuelve al primero)
+        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        
+        // 3. Muestra el nuevo slide
+        slides[currentSlideIndex].classList.add('active');
+    }
+    
+    // Inicia la rotación cada 6000 milisegundos (6 segundos)
+    setInterval(showNextSlide, 6000); 
+}
+
+// Llama a la función de rotación cuando el DOM esté listo
+document.addEventListener('DOMContentLoaded', startBannerRotation);
 });
+
