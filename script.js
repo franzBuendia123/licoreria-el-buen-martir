@@ -1,9 +1,8 @@
 // Función principal que se ejecuta al cargar la página
 document.addEventListener('DOMContentLoaded', () => {
     
-    // 🚨 ATENCIÓN: REEMPLAZA ESTA URL con la que te dé RENDER 🚨
-    // EJEMPLO: 'https://almendariz-api-ab12cd.onrender.com/api/productos'
-    const API_URL = 'https://API_PUBLIC_URL_RENDER/api/productos'; 
+    // 🚨 ÚLTIMA CORRECCIÓN: URL PÚBLICA DE RENDER 🚨
+    const API_URL = 'https://licoreria-el-buen-martir-backend.onrender.com/api/productos'; 
     
     const productGrid = document.getElementById('product-list');
 
@@ -23,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Construir el HTML dinámicamente con los productos
             productos.forEach(producto => {
+                // Asegúrate de que los datos de MongoDB (precio_nuevo, descuento, etc.) 
+                // coincidan con los nombres usados aquí.
                 const cardHTML = `
                     <div class="product-card">
                         <span class="sale-tag">-${producto.descuento || '0%'}</span>
@@ -42,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         } catch (error) {
             console.error('Error al cargar los productos:', error);
+            // Esto se mostrará si hay un problema de red, CORS o la URL es incorrecta
             productGrid.innerHTML = '<p style="grid-column: 1 / -1; color: red; text-align: center;">ERROR: No se pudo conectar a la API. Revisa la consola para más detalles.</p>';
         }
     }
