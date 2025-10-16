@@ -1,9 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const API_URL = 'https://licoreria-el-buen-martir-backend.onrender.com/api/productos';
-    
     const productGrid = document.getElementById('product-list');
 
+    // ====================================================================
+    // 1. LÓGICA DE CARGA DE PRODUCTOS
+    // ====================================================================
     async function fetchAndRenderProducts() {
         try {
             const response = await fetch(API_URL);
@@ -49,27 +51,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    fetchAndRenderProducts();
-function startBannerRotation() {
-    const slides = document.querySelectorAll('.banner-slide');
-    let currentSlideIndex = 0;
-    
-    function showNextSlide() {
-        // 1. Oculta el slide actual
-        slides[currentSlideIndex].classList.remove('active');
+
+    // ====================================================================
+    // 2. LÓGICA DE ROTACIÓN DEL BANNER (CARRUSEL)
+    // ====================================================================
+    function startBannerRotation() {
+        const slides = document.querySelectorAll('.banner-slide');
+        if (slides.length < 2) return; // Necesita al menos 2 slides para rotar
+
+        let currentSlideIndex = 0;
         
-        // 2. Mueve al siguiente índice (o vuelve al primero)
-        currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+        // Se asegura que solo el primer slide esté activo al inicio
+        slides.forEach((slide, index) => {
+            if (index === 0) {
+                slide.classList.add('active');
+            } else {
+                slide.classList.remove('active');
+            }
+        });
+
+        function showNextSlide() {
+            // 1. Oculta el slide actual
+            slides[currentSlideIndex].classList.remove('active');
+            
+            // 2. Mueve al siguiente índice (ciclo)
+            currentSlideIndex = (currentSlideIndex + 1) % slides.length;
+            
+            // 3. Muestra el nuevo slide
+            slides[currentSlideIndex].classList.add('active');
+        }
         
-        // 3. Muestra el nuevo slide
-        slides[currentSlideIndex].classList.add('active');
+        // Inicia la rotación cada 6 segundos
+        setInterval(showNextSlide, 6000); 
     }
     
-    // Inicia la rotación cada 6000 milisegundos (6 segundos)
-    setInterval(showNextSlide, 6000); 
-}
+    // ====================================================================
+    // 3. INICIALIZACIÓN (LLAMADA A LAS FUNCIONES CUANDO EL DOM ESTÁ LISTO)
+    // ====================================================================
 
-// Llama a la función de rotación cuando el DOM esté listo
-document.addEventListener('DOMContentLoaded', startBannerRotation);
-});
-
+    fetchAndRenderProducts();
+    startBannerRotation();
+}); // Cierre único y correcto del 'DOMContentLoaded'
