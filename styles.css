@@ -6,6 +6,17 @@ body {
     background-color: #f4f4f4;
 }
 
+.header-logo {
+    height: 50px;
+    width: auto;
+}
+
+.footer-logo {
+    height: 40px; 
+    width: auto;
+    filter: grayscale(100%) brightness(180%);
+}
+
 .container {
     width: 90%;
     max-width: 1200px;
@@ -552,6 +563,7 @@ body {
     cursor: pointer;
     margin-left: 10px;
 }
+
 
 
 
