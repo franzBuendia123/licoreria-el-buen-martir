@@ -7,18 +7,19 @@ body {
 }
 
 .slogan-banner {
-    width: 100%;
-    background-color: #222; /* Fondo gris oscuro o negro para mantener el estilo */
-    color: #fff; /* Texto blanco */
-    text-align: center;
-    padding: 15px 0; /* Aumenta el relleno vertical para darle altura */
-    font-size: 1.1em; /* Un poco más grande para destacar */
-    font-weight: 300;
-    letter-spacing: 1px;
-    margin-bottom: 20px; /* Separación con el carrusel principal */
+    width: 100%; /* CRÍTICO: Asegura que ocupe todo el ancho */
+    background-color: #222; 
+    color: #fff; 
+    text-align: center; /* CRÍTICO: Centra el texto */
+    padding: 20px 0; /* Más relleno para darle altura */
+    margin-bottom: 20px; /* Separación con el carrusel */
 }
-.warning-banner-top {
-    padding: 5px 0; 
+
+.slogan-banner p {
+    margin: 0; /* Elimina márgenes por defecto del <p> */
+    font-size: 1.2em; /* Haz la frase más grande */
+    font-weight: 400; /* Ligeramente más negrita */
+    letter-spacing: 1px;
 }
 
 .main-nav .nav-content {
@@ -576,6 +577,7 @@ body {
     cursor: pointer;
     margin-left: 10px;
 }
+
 
 
 
